@@ -24,11 +24,12 @@
 	  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
 	  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="server_communication.js"></script>
   </head>
   <body>
     <div data-role="header">
       <a class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-left ui-btn-up-a" aria-owns="#popupLogin" aria-haspopup="true" data-wrapperels="span" data-iconshadow="true" data-shadow="true" data-corners="true" href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-icon="check" data-theme="a" data-transition="flip">
-        <span class="ui-btn-inner"><span class="ui-btn-text">Sign in</span>
+        <span class="ui-btn-inner"><span class="ui-btn-text" id="sign_in_btn">Sign in</span>
         <span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span>
         </span>
       </a>
@@ -114,6 +115,15 @@
 
   function foo(){
       $( "#popupLogin" ).popup( "close" );
+      console.log();
+      console.log();
+        var response = getFixItJson({"command":"create_session",
+                                    "params":{"username": $("#un").val(),
+                                    "password": $("#pw").val()
+                                    }
+                                  });
+    $("#sign_in_btn").text("hi, " + $("#un").val());
+    //console.log(response);
   }
 
   function bar(){
@@ -122,9 +132,9 @@
   }
     var map;
     function initialize() {
-      var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+      var myLatlng = new google.maps.LatLng(42.7000,23.3333);
       var mapOptions = {
-      zoom: 4,
+      zoom: 12,
       center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -134,7 +144,7 @@
   var markers = [];
   for(var i = 0; i < 2; i++){
     console.log("Lala " + i);
-    var myLatlng = new google.maps.LatLng(-25.363882 + i * 4,131.044922 + i * 4);
+    var myLatlng = new google.maps.LatLng(42.7000 + i * 4,23.3333 + i * 4);
 
 /*
      var image = {

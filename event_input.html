@@ -9,15 +9,44 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <style>
+      body{
+        background: gray!important;
+      }
+    </style>
   </head>
   <body>
 <div data-role="header">
 <h1>FixIt Yourself!</h1>
 </div><!-- /header -->
-    <h3>Please sign up</h3>
-    <h4 for="un" class=" ui-input-text">User name:</h4>
-    <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
+<div class="ui-grid-b">
+  <div class="ui-block-a"></div>
+  <div class="ui-block-b">
+    <h3>Please enter all of the fields</h3>
+    <h4 for="un" class=" ui-input-text">Name:</h4>
+    <input class="ui-input-text ui-body-a" name="user" id="name" value="" placeholder="name" data-theme="a" type="text">
+
+    <h4 for="un" class=" ui-input-text">X coord:</h4>
+    <input class="ui-input-text ui-body-a" name="user" id="x_coord" value="" placeholder="x coord" data-theme="a" type="text">
+
+    <h4 for="un" class=" ui-input-text">Y coord:</h4>
+    <input class="ui-input-text ui-body-a" name="user" id="y_coord" value="" placeholder="y coord" data-theme="a" type="text">
+
+    <h4 for="un" class=" ui-input-text">Description:</h4>
+    <input class="ui-input-text ui-body-a" name="asd" id="description" value="" placeholder="description" data-theme="a" type="text">
+
+    <h4 for="un" class=" ui-input-text">Address:</h4>
+    <textarea class="ui-input-text ui-body-a" name="user" id="address" value="" placeholder="address" data-theme="a" type="text"></textarea>
+
+    <h4 for="un" class=" ui-input-text">Expected cost:</h4>
+    <input class="ui-input-text ui-body-a" name="user" id="expected_cost" value="" placeholder="expected_cost" data-theme="a" type="text">
+
+    <h4 for="un" class=" ui-input-text">Name:</h4>
+    <input class="ui-input-text ui-body-a" name="user" id="name" value="" placeholder="name" data-theme="a" type="text">
 
     <a onclick="RegisterUser" data-role="button">Add Fix!</a>
+  </div>
+    <div class="ui-block-c"></div>
+  </div>
     </body>
 </html>
