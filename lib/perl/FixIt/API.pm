@@ -8,6 +8,20 @@ use Data::Dumper;
 use DBI;
 use FixIt::Consts;
 
+our $commands = {
+        close_session => {proc => \&CloseSession},
+        create_session => {proc => \&CreateSession},
+        create_or_update_user => {proc => \&CreateOrUpdateUser},
+        create_or_update_event => {proc => \&CreateOrUpdateEvent},
+        in_progress_event => {proc => \&InProgressEvent},
+        accept_event => { proc => \&AcceptEvent},
+	get_events => {proc => \&GetEvents},
+	get_players_with_fixes_and_rep => {proc => \&GetPlayersWithFixesAndRep},
+        get_players_by_event => {proc => \&GetPlayersByEvent},
+        get_players_achivements => {proc => \&GetPlayersAchivements},
+    };
+
+
 sub GetErrorStatus($)
 {
     my ($msg) = @_;
@@ -40,16 +54,6 @@ sub ASSERT($;$)
         }
     }
 }
-
-
-our $commands = {
-        close_session => {proc => \&CloseSession},
-        create_session => {proc => \&CreateSession},
-        create_or_update_user => {proc => \&CreateOrUpdateUser},
-        create_or_update_event => {proc => \&CreateOrUpdateEvent},
-        in_progress_event => {proc => \&InProgressEvent},
-        accept_event => { proc => \&AcceptEvent},
-    };
 
 sub Handler($)
 {
@@ -290,6 +294,290 @@ sub InProgressEvent($$)
 
     return {};
 }
+
+sub GetEvents($$)
+{
+    my ($self, $command) = @_;
+
+    my $response;
+
+
+    my $where_part = '';
+    
+    if(defined $$command{user_id})
+    {
+        $where_part = "where U.id_hash = ? or CU.id_hash = ?";
+    }
+    elsif(defined $$command{event_id})
+    {
+        $where_part = "where E.id = ?";
+    }
+
+    my $sth = $$self{dbh}->prepare("
+SELECT E.*,
+            ES.name as status_id__name,
+            ET.name as type_id__name,
+            U.first_name as reported_by__first_name ,
+            U.last_name as reported_by__last_name ,
+            U.nick_name as reported_by__nick_name ,
+            U.email as reported_by__email ,
+            U.phone_number as reported_by__phone_number ,
+            U.date_of_birth as reported_by__date_of_birth ,
+            U.has_picture as reported_by__has_picture ,
+            U.login as reported_by__login ,
+            U.curr_experience_points as reported_by__curr_experience_points ,
+            U.total_work_time as reported_by__total_work_time ,
+            UL.name as reported_by__level_id__name ,
+            UR.name as reported_by__role_id__name ,
+            CU.first_name as confirmed_by__first_name ,
+            CU.last_name as confirmed_by__last_name ,
+            CU.nick_name as confirmed_by__nick_name ,
+            CU.email as confirmed_by__email ,
+            CU.phone_number as confirmed_by__phone_number ,
+            CU.date_of_birth as confirmed_by__date_of_birth ,
+            CU.has_picture as confirmed_by__has_picture ,
+            CU.login as confirmed_by__login ,
+            CU.curr_experience_points as confirmed_by__curr_experience_points ,
+            CU.total_work_time as confirmed_by__total_work_time 
+--            CUL.name as confirmed_by__level_id__name ,
+--            CUR.name as confirmed_by__role_id__name 
+        FROM events E
+            JOIN event_status ES ON E.status_id = ES.id
+            JOIN event_types ET ON E.type_id = ET.id
+            JOIN users U ON E.reported_by = U.id
+            JOIN user_levels UL ON U.level_id = UL.id
+            JOIN user_roles UR ON U.role_id = UR.id
+            JOIN user_action_types UAT ON UAT.id = E.action_type_id
+                LEFT JOIN users CU ON E.confirmed_by = CU.id
+--                JOIN user_levels CUL ON CU.level_id = CUL.id
+--                JOIN user_roles CUR ON CU.role_id = CUR.id;
+        ".$where_part."ORDER BY reported_by;");
+
+    if(defined $$command{user_id})
+    {
+        $sth->execute($$command{user_id}, $$command{user_id});
+    }
+    elsif(defined $$command{event_id})
+    {
+        $sth->execute($$command{event_id});
+    }
+    else
+    {
+        $sth->execute();
+    }
+
+    my @events;
+
+    while (my $row = $sth->fetchrow_hashref)
+    {
+        push @events,$row
+    }
+
+    $$response{events} = \@events;
+
+    return $response;
+}
+
+
+sub GetPlayersAchivements($$)
+{
+    my($self, $command) = @_;
+
+    my $response;
+
+    my $sth = $$self{dbh}->prepare("
+        SELECT
+            U.*,
+            UL.name as level_id__name,
+            UR.name as role_id__name,
+            UAM.action_count as achivement_map__action_count ,
+            UAM.last_action_count as achivement_map__last_action_count ,
+            UAM.achivement_count as achivement_map__achivement_count ,
+            UA.name as achivements__name ,
+            UA.price_action_count as achivements__price_action_count ,
+            UA.action_count_rise as achivements__action_count_rise ,
+            UA.max_achivement_count as achivements__max_achivement_count ,
+            UAT.name as achivements__action_type_id__name
+        FROM users U
+            JOIN user_levels UL ON U.level_id = UL.id
+            JOIN user_roles UR ON U.role_id = UR.id
+            JOIN user_achivement_map UAM ON UAM.user_id = U.id
+            JOIN user_achivements UA ON UAM.achivement_id = UA.id
+            JOIN user_action_types UAT ON UAT.id = UA.action_type_id
+        ORDER BY U.level_id desc
+        ");
+
+    $sth->execute();
+
+    my @players;
+    while(my $row = $sth->fetchrow_hashref)
+    {
+        push @players,$row
+    }
+
+    $$response{players} = \@players;
+    return $response;
+}
+
+
+sub GetPlayersByEvent($$)
+{
+    my($self, $command) = @_;
+
+    my $response;
+
+    my $sth = $$self{dbh}->prepare("
+        SELECT 
+            U.first_name as reported_by__first_name ,
+            U.last_name as reported_by__last_name ,
+            U.nick_name as reported_by__nick_name ,
+            U.email as reported_by__email ,
+            U.phone_number as reported_by__phone_number ,
+            U.date_of_birth as reported_by__date_of_birth ,
+            U.has_picture as reported_by__has_picture ,
+            U.login as reported_by__login ,
+            U.curr_experience_points as reported_by__curr_experience_points ,
+            U.total_work_time as reported_by__total_work_time ,
+            UL.name as reported_by__level_id__name ,
+            UR.name as reported_by__role_id__name ,
+            CU.first_name as confirmed_by__first_name ,
+            CU.last_name as confirmed_by__last_name ,
+            CU.nick_name as confirmed_by__nick_name ,
+            CU.email as confirmed_by__email ,
+            CU.phone_number as confirmed_by__phone_number ,
+            CU.date_of_birth as confirmed_by__date_of_birth ,
+            CU.has_picture as confirmed_by__has_picture ,
+            CU.login as confirmed_by__login ,
+            CU.curr_experience_points as confirmed_by__curr_experience_points ,
+            CU.total_work_time as confirmed_by__total_work_time ,
+--            CUL.name as confirmed_by__level_id__name ,
+--            CUR.name as confirmed_by__role_id__name ,
+            MU.first_name as acepted_by__first_name ,
+            MU.last_name as acepted_by__last_name ,
+            MU.nick_name as acepted_by__nick_name ,
+            MU.email as acepted_by__email ,
+            MU.phone_number as acepted_by__phone_number ,
+            MU.date_of_birth as acepted_by__date_of_birth ,
+            MU.has_picture as acepted_by__has_picture ,
+            MU.login as acepted_by__login ,
+            MU.curr_experience_points as acepted_by__curr_experience_points ,
+            MU.total_work_time as acepted_by__total_work_time ,
+--            MUL.name as acepted_by__level_id__name ,
+--            MUR.name as acepted_by__role_id__name ,
+            UEM as user_event_map__accepted_at ,
+            UEM as user_event_map__work_time ,
+            UEM as user_event_map__experience_points ,
+            UAT.name as action_type_id__name
+        FROM events E
+            JOIN event_status ES ON E.status_id = ES.id
+            JOIN event_types ET ON E.type_id = ET.id
+            JOIN users U ON E.reported_by = U.id
+            JOIN user_levels UL ON U.level_id = UL.id
+            JOIN user_roles UR ON U.role_id = UR.id
+            JOIN user_action_types UAT ON UAT.id = E.action_type_id
+                LEFT JOIN user_event_map UEM ON UEM.event_id = E.id
+                JOIN users MU ON MU.id = UEM.user_id 
+                LEFT JOIN users CU ON E.confirmed_by = CU.id
+--                JOIN user_levels CUL ON CU.level_id = CUL.id
+--                JOIN user_roles CUR ON CU.role_iid = CUR.id
+        WHERE E.id = ?
+        ");
+ASSERT(defined $$command{event_id});
+    $sth->execute($$command{event_id});
+
+    my @players;
+    while(my $row = $sth->fetchrow_hashref)
+    {
+        push @players,$row
+    }
+
+    $$response{players} = \@players;
+
+
+    return $response;
+}
+
+
+sub GetPlayersWithFixesAndRep($$)
+{
+    my ($self, $command) = @_;
+
+    my $response;
+
+    my $sth = $$self{dbh}->prepare("
+        SELECT E.*.
+            ES.name as status_id__name,
+            ET.name as type_id__name,
+            U.first_name as reported_by__first_name ,
+            U.last_name as reported_by__last_name ,
+            U.nick_name as reported_by__nick_name ,
+            U.email as reported_by__email ,
+            U.phone_number as reported_by__phone_number ,
+            U.date_of_birth as reported_by__date_of_birth ,
+            U.has_picture as reported_by__has_picture ,
+            U.login as reported_by__login ,
+            U.curr_experience_points as reported_by__curr_experience_points ,
+            U.total_work_time as reported_by__total_work_time ,
+            UL.name as reported_by__level_id__name ,
+            UR.name as reported_by__role_id__name ,
+            CU.first_name as confirmed_by__first_name ,
+            CU.last_name as confirmed_by__last_name ,
+            CU.nick_name as confirmed_by__nick_name ,
+            CU.email as confirmed_by__email ,
+            CU.phone_number as confirmed_by__phone_number ,
+            CU.date_of_birth as confirmed_by__date_of_birth ,
+            CU.has_picture as confirmed_by__has_picture ,
+            CU.login as confirmed_by__login ,
+            CU.curr_experience_points as confirmed_by__curr_experience_points ,
+            CU.total_work_time as confirmed_by__total_work_time ,
+            CUL.name as confirmed_by__level_id__name ,
+            CUR.name as confirmed_by__role_id__name,
+            MU.first_name as acepted_by__first_name ,
+            MU.last_name as acepted_by__last_name ,
+            MU.nick_name as acepted_by__nick_name ,
+            MU.email as acepted_by__email ,
+            MU.phone_number as acepted_by__phone_number ,
+            MU.date_of_birth as acepted_by__date_of_birth ,
+            MU.has_picture as acepted_by__has_picture ,
+            MU.login as acepted_by__login ,
+            MU.curr_experience_points as acepted_by__curr_experience_points ,
+            MU.total_work_time as acepted_by__total_work_time ,
+--            MUL.name as acepted_by__level_id__name ,
+--            MUR.name as acepted_by__role_id__name ,
+            UEM as user_event_map__accepted_at ,
+            UEM as user_event_map__work_time ,
+            UEM as user_event_map__experience_points ,
+            UAT.name as action_type_id__name
+        FROM events E
+            JOIN event_status ES ON E.status_id = ES.id
+            JOIN events_types ET ON E.type_id = ET.id
+            JOIN users U ON E.reported_by = U.id
+            JOIN user_levels UL ON U.level_id = UL.id
+            JOIN user_roles UR ON U.role_id = UR.id
+            JOIN user_action_types UAT ON UAT.id = E.action_type_id
+                LEFT JOIN user_event_map UEM ON UEM.event_id = E.id
+                JOIN users MU ON MU.id = UEM.user_id 
+                LEFT JOIN users CU ON E.confirmed_by_by = CU.id
+                JOIN user_levels CUL ON CU.level_id = CUL.id
+                JOIN user_roles CUR ON CU.role_iid = CUR.id
+            where U.id_hash = ? or MU.id_hash = ? or CU.id_hash = ?
+        ");
+
+    $sth->execute($$command{user_id},$$command{user_id},$$command{user_id});
+
+    my @players;
+
+    while (my $row = $sth->fetchrow_hashref)
+    {
+        push @players, $row;
+    }
+
+    $$response{players} = \@players;
+
+    return $response;
+}
+
+
 
 1;
 
