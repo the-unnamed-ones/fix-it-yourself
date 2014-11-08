@@ -1,0 +1,11 @@
+.achievement {
+  height:110px;
+  width:110px;
+  background:red;
+  float:left;
+  margin-right:30px;
+  margin-top:30px;
+  display: table-cell;
+  text-align:center;
+  vertical-align: middle;
+}
