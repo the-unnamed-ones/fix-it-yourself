@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="server_communication.js"></script>
+    <script src="video_streamer.js"></script>
     <style>
       body{
         background: gray!important;
@@ -23,6 +25,10 @@
   <div class="ui-block-a"></div>
   <div class="ui-block-b">
     <h3>Please enter all of the fields</h3>
+     <video id="camera" width="320" height="240">
+    </video>
+    <img id="image" width="320" height="240">
+  </img>
     <h4 for="un" class=" ui-input-text">Name:</h4>
     <input class="ui-input-text ui-body-a" name="user" id="name" value="" placeholder="name" data-theme="a" type="text">
 
@@ -41,12 +47,33 @@
     <h4 for="un" class=" ui-input-text">Expected cost:</h4>
     <input class="ui-input-text ui-body-a" name="user" id="expected_cost" value="" placeholder="expected_cost" data-theme="a" type="text">
 
-    <h4 for="un" class=" ui-input-text">Name:</h4>
-    <input class="ui-input-text ui-body-a" name="user" id="name" value="" placeholder="name" data-theme="a" type="text">
-
-    <a onclick="RegisterUser" data-role="button">Add Fix!</a>
+    <a onclick="add_event()" data-role="button">Add Fix!</a>
   </div>
     <div class="ui-block-c"></div>
   </div>
     </body>
+<script>
+var vs = new VS.VideoStreamer;
+var camera = document.getElementById("camera");
+var image = document.getElementById("image");
+vs.startStream(camera);
+
+  function add_event(){
+
+    vs.takePicture(camera, image);
+    vs.stopStream(camera);
+    resp = getFixItJson({"command":"create_or_update_event",
+                                "params":{"name": $("#name").val(),
+                                "coord_x": $("#x_coord").val(),
+                                "coord_y": $("#y_coord").val(),
+                                "picture_count": 0,
+                                "reported_by": 15,
+                                "address": $("#address").val(),
+                                "descr": $("#description").val(),
+                                "cost": $("#expected_cost").val()
+                                }
+                              });
+    console.log(resp);
+  }
+</script>
 </html>

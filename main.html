@@ -41,32 +41,7 @@
   <!-- CANVAS -->
 
   <!-- FORM WITH DATA -->
-  <div class="ui-grid-a">
-    <div id="fix_picture_current" class="ui-block-a">
-    </div>
 
-    <div id="fix_status" class="ui-block-b">
-      <div class="ui-grid-a">
-        <div class="ui-block-a">
-          <div id="fix_address">
-            <b>Address: </b>gradinkata do blok 24
-          </div>
-          <div id="fix_cost:">
-            <b>Expected cost: </b>50-80lv
-          </div>
-          <div>
-          </div>
-        </div>
-
-        <div class="ui-block-b">
-          <div id="fix_description" style="height:195px;overflow-y: scroll;overflow-x: hidden;">
-              Bla bla bla bla bla bla bla koga e nastupilo bla bla bla
-          </div>
-          <a  data-role="button">Accept Fix</a>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- LOGIN POPUP -->
     <div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
                 <div style="padding:10px 20px;">
@@ -101,6 +76,38 @@
                   </div>
               </div>
       <!--// REGISTER POPUP -->
+      <div data-role="popup" id="fix_waiting">
+      	<div class="ui-grid-a">
+         <div id="fix_picture_current" class="ui-block-a">
+         </div>
+
+         <div id="fix_status" class="ui-block-b">
+           <div class="ui-grid-a">
+             <div class="ui-block-a">
+               <div id="fix_address">
+                 <b>Address: </b>gradinkata do blok 24
+               </div>
+               <div id="fix_cost:">
+                 <b>Expected cost: </b>50-80lv
+               </div>
+               <div>
+               </div>
+             </div>
+
+             <div class="ui-block-b">
+               <div id="fix_description" style="height:195px;overflow-y: scroll;overflow-x: hidden;">
+                   Bla bla bla bla bla bla bla koga e nastupilo bla bla bla
+               </div>
+               <a  data-role="button">Accept Fix</a>
+             </div>
+           </div>
+         </div>
+       </div>
+      </div>
+      <div data-role="popup" id="fix_inprogress">
+      	<p>This is a completely basic popup, no options set.<p>
+      </div>
+
   </body>
   <script>
   //It hides the buttons and divs when showing a waiting fix
@@ -185,5 +192,7 @@
   }
 }
     google.maps.event.addDomListener(window, 'load', initialize);
+    $( "#fix_waiting" ).popup();
+    $( "#fix_inprogress" ).popup();
   </script>
 </html>
