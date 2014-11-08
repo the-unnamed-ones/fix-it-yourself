@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Awesome app</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+  </head>
+  <body>
+<div data-role="header">
+<h1>FixIt Yourself!</h1>
+</div>
+<select name="day" id="time_period">
+  <optgroup label="Time period">
+    <option value="daily" onclick("console.log('shalala')")>Daily</option>
+    <option value="weekly" onclick("console.log('doom')")>Weekly</option>
+    <option value="monthly">Monthly</option>
+  </optgroup>
+</select>
+<div class="ui-grid-a">
+	<div class="ui-block-a">
+    <h3>Top Fixers</h3>
+    <ul data-role="listview">
+	<li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Dimitur 37lv - 34 fixes <br/>
+      Extra info
+  </a></li>
+	<li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Ivan 42lv - 27 fixes <br/>
+      Extra info
+  </a></li>
+	<li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Toni 25lv - 14 fixes <br/>
+      Extra info
+  </a></li>
+  <li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Dimcho 24lv - 11 fixes <br/>
+      Extra info
+  </a></li>
+</ul>
+  </div>
+	<div class="ui-block-b">
+    <h3>Top Reporters</h3>
+    <ul data-role="listview">
+  <li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Ivan 42lv - 50 reports <br/>
+      Extra info
+  </a></li>
+  <li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Maria 40lv - 34 reports <br/>
+      Extra info
+  </a></li>
+  <li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Dimitur 25lv - 28 reports <br/>
+      Extra info
+  </a></li>
+  <li><a href="acura.html"><img src="avatar.png" height="75px" width="75px" />Aleks 24lv - 18 reports <br/>
+      Extra info
+  </a></li>
+</ul>
+  </div>
+</div><!-- /grid-a -->
+
+</html>
