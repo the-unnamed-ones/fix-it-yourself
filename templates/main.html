@@ -1,165 +1,167 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Awesome app</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../static/css/main.css" />
-	  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-  </head>
-  <body>
-    <div data-role="header">
-      <a class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-left ui-btn-up-a" aria-owns="#popupLogin" aria-haspopup="true" data-wrapperels="span" data-iconshadow="true" data-shadow="true" data-corners="true" href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-icon="check" data-theme="a" data-transition="flip">
-        <span class="ui-btn-inner"><span class="ui-btn-text">Sign in</span>
-        <span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span>
-        </span>
-      </a>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+</head>
 
-		<h1>FixIt Yourself!</h1>
-	</div><!-- /header -->
-  <!-- CANVAS -->
-    <div id="map-canvas"></div>
-  <!-- CANVAS -->
+<body>
+<div data-role="header">
+  <a class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-left ui-btn-up-a" aria-owns="#popupLogin" aria-haspopup="true" data-wrapperels="span" data-iconshadow="true" data-shadow="true" data-corners="true" href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-icon="check" data-theme="a" data-transition="flip">
+    <span class="ui-btn-inner"><span class="ui-btn-text">Sign in</span>
+    <span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span>
+    </span>
+  </a>
 
-  <!-- FORM WITH DATA -->
+	<h1>FixIt Yourself!</h1>
+</div><!-- /header -->
+<!-- CANVAS -->
+<div id="map-canvas"></div>
+<!-- CANVAS -->
+
+<!-- FORM WITH DATA -->
+<div class="ui-grid-a">
+<div id="fix_picture_current" class="ui-block-a">
+</div>
+
+<div id="fix_status" class="ui-block-b">
   <div class="ui-grid-a">
-    <div id="fix_picture_current" class="ui-block-a">
-    </div>
-
-    <div id="fix_status" class="ui-block-b">
-      <div class="ui-grid-a">
-        <div class="ui-block-a">
-          <div id="fix_address">
-            <b>Address: </b>gradinkata do blok 24
-          </div>
-          <div id="fix_cost:">
-            <b>Expected cost: </b>50-80lv
-          </div>
-          <div>
-          </div>
-        </div>
-
-        <div class="ui-block-b">
-          <div id="fix_description" style="height:195px;overflow-y: scroll;overflow-x: hidden;">
-              Bla bla bla bla bla bla bla koga e nastupilo bla bla bla
-          </div>
-          <a  data-role="button">Accept Fix</a>
-        </div>
+    <div class="ui-block-a">
+      <div id="fix_address">
+        <b>Address: </b>gradinkata do blok 24
+      </div>
+      <div id="fix_cost:">
+        <b>Expected cost: </b>50-80lv
+      </div>
+      <div>
       </div>
     </div>
+
+    <div class="ui-block-b">
+      <div id="fix_description" style="height:195px;overflow-y: scroll;overflow-x: hidden;">
+          Bla bla bla bla bla bla bla koga e nastupilo bla bla bla
+      </div>
+      <a  data-role="button">Accept Fix</a>
+    </div>
   </div>
-  <!-- LOGIN POPUP -->
-    <div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
-                <div style="padding:10px 20px;">
-                  <h3>Please sign in</h3>
-                      <label for="un" class="ui-hidden-accessible ui-input-text">Username:</label>
-                      <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
-                      <label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
-                      <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
-                   <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign in</button>
-                   <!--<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="star"  onclick='bar()' aria-owns="#popupRegister" aria-haspopup="true" href="#popupRegister" data-rel="popup" >Sign up</button> -->
-                  <a href="sign_up.html" data-role="button">Sign up!</a>
-                </div>
+</div>
+</div>
+<!-- LOGIN POPUP -->
+<div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
+            <div style="padding:10px 20px;">
+              <h3>Please sign in</h3>
+                  <label for="un" class="ui-hidden-accessible ui-input-text">Username:</label>
+                  <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
+                  <label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
+                  <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
+               <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign in</button>
+               <!--<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="star"  onclick='bar()' aria-owns="#popupRegister" aria-haspopup="true" href="#popupRegister" data-rel="popup" >Sign up</button> -->
+              <a href="sign_up.html" data-role="button">Sign up!</a>
             </div>
-    <!--// LOGIN POPUP -->
-    <!-- REGISTER POPUP -->
-      <div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupRegister" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
-                  <div style="padding:10px 20px;">
-                    <h3>Please sign up</h3>
-                        <label for="un" class="ui-hidden-accessible ui-input-text">User name:</label>
-                        <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
-                        <label for="un" class="ui-hidden-accessible ui-input-text">First name:</label>
-                        <input class="ui-input-text ui-body-a" name="fname" id="un" value="" placeholder="first name" data-theme="a" type="text">
-                        <label for="un" class="ui-hidden-accessible ui-input-text">Last name:</label>
-                        <input class="ui-input-text ui-body-a" name="lname" id="un" value="" placeholder="last name" data-theme="a" type="text">
-                        <label for="un" class="ui-hidden-accessible ui-input-text">Email:</label>
-                        <input class="ui-input-text ui-body-a" name="email" id="un" value="" placeholder="email" data-theme="a" type="text">
-                        <label for="un" class="ui-hidden-accessible ui-input-text">Birth date:</label>
-                        <input class="ui-input-text ui-body-a" name="bdate" id="un" value="" placeholder="birth date" data-theme="a" type="text">
-                        <label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
-                        <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
-                     <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign up</button>
-                  </div>
+        </div>
+<!--// LOGIN POPUP -->
+<!-- REGISTER POPUP -->
+  <div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupRegister" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
+              <div style="padding:10px 20px;">
+                <h3>Please sign up</h3>
+                    <label for="un" class="ui-hidden-accessible ui-input-text">User name:</label>
+                    <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
+                    <label for="un" class="ui-hidden-accessible ui-input-text">First name:</label>
+                    <input class="ui-input-text ui-body-a" name="fname" id="un" value="" placeholder="first name" data-theme="a" type="text">
+                    <label for="un" class="ui-hidden-accessible ui-input-text">Last name:</label>
+                    <input class="ui-input-text ui-body-a" name="lname" id="un" value="" placeholder="last name" data-theme="a" type="text">
+                    <label for="un" class="ui-hidden-accessible ui-input-text">Email:</label>
+                    <input class="ui-input-text ui-body-a" name="email" id="un" value="" placeholder="email" data-theme="a" type="text">
+                    <label for="un" class="ui-hidden-accessible ui-input-text">Birth date:</label>
+                    <input class="ui-input-text ui-body-a" name="bdate" id="un" value="" placeholder="birth date" data-theme="a" type="text">
+                    <label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
+                    <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
+                 <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign up</button>
               </div>
-      <!--// REGISTER POPUP -->
-  </body>
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+          </div>
+  <!--// REGISTER POPUP -->
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-	  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-  <script>
-  //It hides the buttons and divs when showing a waiting fix
-  function hideActiveFixesUi(){
+<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+<script>
+   //It hides the buttons and divs when showing a waiting fix
+   function hideActiveFixesUi(){
 
-  }
+   }
 
-  //It hides the buttons and divs when showing an active fix
-  function hideWaitingFixesUi(){
+   //It hides the buttons and divs when showing an active fix
+   function hideWaitingFixesUi(){
 
-  }
+   }
 
-  function foo(){
-      $( "#popupLogin" ).popup( "close" );
-  }
+   function foo(){
+       $( "#popupLogin" ).popup( "close" );
+   }
 
-  function bar(){
-      //$( "#popupLogin" ).popup( "close" );
-      $( "#popupRegister" ).popup( "open" );
-  }
-    var map;
-    function initialize() {
-      var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-      var mapOptions = {
-      zoom: 4,
-      center: myLatlng
-  }
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  var arr = ["one", "two"];
-  var img_src = ["current.jpeg", "current2.jpg"];
-  var statuses = ["active", "waiting"];
-  var markers = [];
-  for(var i = 0; i < 2; i++){
-    console.log("Lala " + i);
-    var myLatlng = new google.maps.LatLng(-25.363882 + i * 4,131.044922 + i * 4);
+   function bar(){
+       //$( "#popupLogin" ).popup( "close" );
+       $( "#popupRegister" ).popup( "open" );
+   }
+     var map;
+     function initialize() {
+       var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+       var mapOptions = {
+       zoom: 4,
+       center: myLatlng
+   }
+   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+   var arr = ["one", "two"];
+   var img_src = ["current.jpeg", "current2.jpg"];
+   var statuses = ["active", "waiting"];
+   var markers = [];
+   for(var i = 0; i < 2; i++){
+     console.log("Lala " + i);
+     var myLatlng = new google.maps.LatLng(-25.363882 + i * 4,131.044922 + i * 4);
 
-/*
-     var image = {
-      url: 'good_marker.png',
-      // This marker is 20 pixels wide by 32 pixels tall.
-      size: new google.maps.Size(20, 32),
-      // The origin for this image is 0,0.
-      origin: new google.maps.Point(0,0),
-      // The anchor for this image is the base of the flagpole at 0,32.
-      anchor: new google.maps.Point(0, 32)
-    };
-*/
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title: "Hello world    " +  i,
-        img_src: img_src[i],
-        status: statuses[i]
-    });
-    markers.push(marker);
+ /*
+      var image = {
+       url: 'good_marker.png',
+       // This marker is 20 pixels wide by 32 pixels tall.
+       size: new google.maps.Size(20, 32),
+       // The origin for this image is 0,0.
+       origin: new google.maps.Point(0,0),
+       // The anchor for this image is the base of the flagpole at 0,32.
+       anchor: new google.maps.Point(0, 32)
+     };
+ */
+     var marker = new google.maps.Marker({
+         position: myLatlng,
+         map: map,
+         title: "Hello world    " +  i,
+         img_src: img_src[i],
+         status: statuses[i]
+     });
+     markers.push(marker);
 
-    console.log("Markers:  ", markers.length);
-  }
-  for(var j = 0; j < markers.length; j++){
-    console.log("A new marker will be bound to an event");
-    google.maps.event.addListener(markers[j], 'click', function() {
-        document.getElementById("fix_picture_current").innerHTML = ' <img src="' + this.img_src  + '" width="100%" height="251x" />'
-        console.log("The value of the status is:  ", statuses[j]);
-        if(this.status === "waiting"){
-            document.getElementById("fix_description").innerHTML = "There is a rusted slide at the playground.";
-        //    document.getElementById("fix_picture_current").innerHTML =
-        }
-        else if( this.status === "active"){
-            document.getElementById("fix_description").innerHTML =  "At 10 this we are going to paint the slide :)";
-            //document.getElementById("fix_picture_current").innerHTML =
-        }
-    });
-  }
-}
-    google.maps.event.addDomListener(window, 'load', initialize);
-  </script>
+     console.log("Markers:  ", markers.length);
+   }
+   for(var j = 0; j < markers.length; j++){
+     console.log("A new marker will be bound to an event");
+     google.maps.event.addListener(markers[j], 'click', function() {
+         document.getElementById("fix_picture_current").innerHTML = ' <img src="' + this.img_src  + '" width="100%" height="251x" />'
+         console.log("The value of the status is:  ", statuses[j]);
+         if(this.status === "waiting"){
+             document.getElementById("fix_description").innerHTML = "There is a rusted slide at the playground.";
+         //    document.getElementById("fix_picture_current").innerHTML =
+         }
+         else if( this.status === "active"){
+             document.getElementById("fix_description").innerHTML =  "At 10 this we are going to paint the slide :)";
+             //document.getElementById("fix_picture_current").innerHTML =
+         }
+     });
+   }
+ }
+     google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</body>
 </html>
