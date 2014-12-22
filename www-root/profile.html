@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Awesome app</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <style>
+      .achivement_oval{
+        height:100px;
+        width:100px;
+        background:;
+        float:left;
+        margin-right:20px;
+        margin-top:20px;
+        /*display: table-cell;*/
+        text-align:center;
+        /*vertical-align: middle;*/
+        border-radius: 39px 39px 39px 39px;
+        -moz-border-radius: 39px 39px 39px 39px;
+        -webkit-border-radius: 39px 39px 39px 39px;
+        border: 3px solid #000000;
+        text-align: center;
+      }
+
+      .ach_span{
+        display: table-cell;
+        vertical-align: middle;
+      }
+      .achivement{
+        height:100px;
+        width:100px;
+        background:;
+        float:left;
+        margin-right:20px;
+        margin-top:20px;
+        display: table-cell;
+        text-align:center;
+        vertical-align: middle;
+        border: 1px solid #000000;
+      }
+
+      .gold{
+        -moz-box-shadow:inset 0px 1px 0px 0px #f9eca0;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #f9eca0;
+	box-shadow:inset 0px 1px 0px 0px #f9eca0;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f0c911), color-stop(1, #f2ab1e) );
+	background:-moz-linear-gradient( center top, #f0c911 5%, #f2ab1e 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f0c911', endColorstr='#f2ab1e');
+	background-color:#f0c911;
+	-webkit-border-top-left-radius:6px;
+	-moz-border-radius-topleft:6px;
+	border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-moz-border-radius-topright:6px;
+	border-top-right-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+	border-bottom-right-radius:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+	border-bottom-left-radius:6px;
+	text-indent:0;
+	border:1px solid #e65f44;
+	display:inline-block;
+	color:#c92200;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:100px;
+	line-height:35px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ded17c;
+      }
+
+      .epic{
+        -moz-box-shadow:inset 0px 1px 0px 0px #f9eca0;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #f9eca0;
+	box-shadow:inset 0px 1px 0px 0px #f9eca0;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffd000), color-stop(1, #f8ff1f) );
+	background:-moz-linear-gradient( center top, #ffd000 5%, #f8ff1f 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd000', endColorstr='#f8ff1f');
+	background-color:#ffd000;
+	-webkit-border-top-left-radius:41px;
+	-moz-border-radius-topleft:41px;
+	border-top-left-radius:41px;
+	-webkit-border-top-right-radius:41px;
+	-moz-border-radius-topright:41px;
+	border-top-right-radius:41px;
+	-webkit-border-bottom-right-radius:41px;
+	-moz-border-radius-bottomright:41px;
+	border-bottom-right-radius:41px;
+	-webkit-border-bottom-left-radius:41px;
+	-moz-border-radius-bottomleft:41px;
+	border-bottom-left-radius:41px;
+	text-indent:0;
+	border:1px solid #e65f44;
+	display:inline-block;
+	color:#2c300f;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:100px;
+	line-height:35px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ded17c;
+      }
+
+      .amazing{
+        	-moz-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #b8e356), color-stop(1, #a5cc52) );
+	background:-moz-linear-gradient( center top, #b8e356 5%, #a5cc52 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8e356', endColorstr='#a5cc52');
+	background-color:#b8e356;
+	-webkit-border-top-left-radius:0px;
+	-moz-border-radius-topleft:0px;
+	border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	border-top-right-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright:0px;
+	border-bottom-right-radius:0px;
+	-webkit-border-bottom-left-radius:0px;
+	-moz-border-radius-bottomleft:0px;
+	border-bottom-left-radius:0px;
+	text-indent:0;
+	border:1px solid #83c41a;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:100px;
+	line-height:35px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #86ae47;
+      }
+
+      .cool{
+        	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0) );
+	background:-moz-linear-gradient( center top, #3d94f6 5%, #1e62d0 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0');
+	background-color:#3d94f6;
+	-webkit-border-top-left-radius:0px;
+	-moz-border-radius-topleft:0px;
+	border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	border-top-right-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright:0px;
+	border-bottom-right-radius:0px;
+	-webkit-border-bottom-left-radius:0px;
+	-moz-border-radius-bottomleft:0px;
+	border-bottom-left-radius:0px;
+	text-indent:0;
+	border:1px solid #337fed;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:100px;
+	line-height:35px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #1570cd;
+      }
+
+      .rest{
+        	-moz-box-shadow:inset 0px 1px 0px 0px #caefab;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #caefab;
+	box-shadow:inset 0px 1px 0px 0px #caefab;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
+	background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
+	background-color:#77d42a;
+	-webkit-border-top-left-radius:0px;
+	-moz-border-radius-topleft:0px;
+	border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	border-top-right-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright:0px;
+	border-bottom-right-radius:0px;
+	-webkit-border-bottom-left-radius:0px;
+	-moz-border-radius-bottomleft:0px;
+	border-bottom-left-radius:0px;
+	text-indent:0;
+	border:1px solid #268a16;
+	display:inline-block;
+	color:#306108;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:100px;
+	line-height:50px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #aade7c;
+      }
+    </style>
+</head>
+
+<body>
+<div data-role="page">
+    <div data-role="header">
+      <a id="home-button" href="main.html" data-icon="home">Home</a>
+      <a id="statistics-button" href="statistics.html" data-icon="grid">Statistics</a>
+      <h1>Fix-It Yourself! - Profile of Oleg Ivanov</h1>
+    </div>
+
+
+            <div style="height:100px;">
+              <img src="avatar.png" height="190" width="160" style="float:left;padding-right:92px;" />
+              <p id="account_information" style="float:left"><b>Name:</b>Kyle Broflovski <br/>
+                <b>Level:</b> 37 <br/>
+                <b>Class:</b> Grand Warrior Mage
+              </p>
+            </div>
+            <h2>Trophies:</h2>
+            <div class="ui-solo-grid" id="achivement_container">
+              <div class="gold achivement">First fix :)</div>
+              <div class="cool achivement"><span class="ach_span">Plant 5 trees</span></div>
+              <div class="epic achivement"> Christmast Charity 2013 </div>
+              <div class=" cool achivement"><span class="ach_span">Fix 25 benches</div>
+              <div class="cool achivement"><span class="ach_span">Fix 10 benches</span></div>
+              <div class="gold achivement_oval">Donation - single time (x10) / </div>
+              <div class="rest achivement_oval"><span class="ach_span">One year of service</span></div>
+              <div class="epic achivement"> Halloween Cleanup event 2012 </div>
+              <div class="cool achivement"><span class="ach_span">Repaint 4 slides</div>
+              <div class="gold achivement_oval">First Donation :)</div>
+              <div class="gold achivement_oval">Donation - to specific event(x4)</div>
+              <div class="rest achivement"> First report :) </div>
+              <div class="amazing achivement"> 50 reports </div>
+              <div class="epic achivement"> Christmast Charity 2012 </div>
+            </div>
+</div>
+</body>
+
+<script>
+$(document).ready(function(){
+    $("#statistics-button").click(function () {
+        document.location.href = "./statistics.html";
+    });
+    $("#home-button").click(function () {
+        document.location.href = "./main.html";
+    });
+});
+</script>
+</html>

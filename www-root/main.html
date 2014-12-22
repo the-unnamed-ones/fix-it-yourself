@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Awesome app</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
+	<style>
+		html, body, #map-canvas {
+			height: 325px;
+			margin: 0px;
+			padding: 0px
+		}
+
+		.ui-block-a {
+			width: 33% !important;
+		}
+
+		.ui-block-b {
+			width: 66% !important;
+		}
+
+	</style>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<script src="js/tb_video_stream.js"></script>
+</head>
+<body>
+	<div id="fiy-header" data-role="header">
+		<a class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-left ui-btn-up-a" aria-owns="#popupLogin" aria-haspopup="true" data-wrapperels="span" data-iconshadow="true" data-shadow="true" data-corners="true" href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-icon="check" data-theme="a" data-transition="flip">
+			<span class="ui-btn-inner"><span id="sign_in_btn" class="ui-btn-text">Sign in</span>
+			<span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span>
+		</span>
+	</a>
+	<h1>Fix-It Yourself!
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+    <input type="hidden" name="cmd" value="_donations">
+
+    <input type="hidden" name="business" value="kosyokk@gmail.com">
+
+    <input type="hidden" name="lc" value="US">
+
+    <input type="hidden" name="item_name" value="fixit">
+
+    <input type="hidden" name="no_note" value="0">
+
+    <input type="hidden" name="currency_code" value="USD">
+
+    <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+
+    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+
+    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+
+</form>
+
+</h1>
+
+
+	<a id="statistics-button" href="statistics.html" data-icon="grid">Statistics</a>
+</div><!-- /header -->
+<!-- CANVAS -->
+<div id="map-canvas"></div>
+<!-- CANVAS -->
+
+<!-- FORM WITH DATA -->
+	<!-- <div class="ui-grid-a">
+		<div id="fix_picture_current" class="ui-block-a">
+		</div>
+
+		<div id="fix_status" class="ui-block-b">
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<div id="fix_address">
+						<b>Address: </b>gradinkata do blok 24
+					</div>
+					<div id="fix_cost:">
+						<b>Expected cost: </b>50-80lv
+					</div>
+					<div>
+					</div>
+				</div>
+
+				<div class="ui-block-b">
+					<div id="fix_description" style="height:195px;overflow-y: scroll;overflow-x: hidden;">
+							Bla bla bla bla bla bla bla koga e nastupilo bla bla bla
+					</div>
+					<a  data-role="button">Accept Fix</a>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<!-- LOGIN POPUP -->
+	<div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
+		<div style="padding:10px 20px;">
+			<h3>Please sign in</h3>
+			<label for="un" class="ui-hidden-accessible ui-input-text">Username:</label>
+			<input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
+			<label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
+			<input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
+			<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign in</button>
+			<!--<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="star"  onclick='bar()' aria-owns="#popupRegister" aria-haspopup="true" href="#popupRegister" data-rel="popup" >Sign up</button> -->
+			<a href="sign_up.html" data-role="button">Sign up!</a>
+		</div>
+	</div>
+	<!--// LOGIN POPUP -->
+	<!-- REGISTER POPUP -->
+	<div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupRegister" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
+		<div style="padding:10px 20px;">
+			<h3>Please sign up</h3>
+			<label for="un" class="ui-hidden-accessible ui-input-text">User name:</label>
+			<input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
+			<label for="un" class="ui-hidden-accessible ui-input-text">First name:</label>
+			<input class="ui-input-text ui-body-a" name="fname" id="un" value="" placeholder="first name" data-theme="a" type="text">
+			<label for="un" class="ui-hidden-accessible ui-input-text">Last name:</label>
+			<input class="ui-input-text ui-body-a" name="lname" id="un" value="" placeholder="last name" data-theme="a" type="text">
+			<label for="un" class="ui-hidden-accessible ui-input-text">Email:</label>
+			<input class="ui-input-text ui-body-a" name="email" id="un" value="" placeholder="email" data-theme="a" type="text">
+			<label for="un" class="ui-hidden-accessible ui-input-text">Birth date:</label>
+			<input class="ui-input-text ui-body-a" name="bdate" id="un" value="" placeholder="birth date" data-theme="a" type="text">
+			<label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
+			<input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
+			<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign up</button>
+		</div>
+	</div>
+	<!--// REGISTER POPUP -->
+	<script type="text/javascript">
+function foo(){
+
+      $( "#popupLogin" ).popup( "close" );
+
+      console.log();
+
+      console.log();
+
+  /*      var response = getFixItJson({"command":"create_session",
+
+                                    "params":{"username": $("#un").val(),
+
+                                    "password": $("#pw").val()
+
+                                    }
+
+                                  });
+*/
+    $("#sign_in_btn").text("hi, " + $("#un").val());
+
+    //console.log(response);
+
+  }
+		var init = false;
+		$(function(){
+			if (init) {
+				return;
+			}
+
+			init = true;
+			var fiy = fiy || {};
+
+			fiy.videoStreamer = new VS.VideoStreamer();
+			fiy.AJAX_URL = 'http://localhost/fixit-api/api.pl';
+			fiy.request = function(data) {
+				var request = $.ajax({
+					type: 'POST',
+					url: fiy.AJAX_URL,
+					data: {payload_json: JSON.stringify(data)},
+					dataType: 'json',
+				});
+
+				return request;
+			};
+
+			fiy.updateMapHeight = function() {
+				$('#map-canvas').height($(window).height() - $('#fiy-header').outerHeight());
+			};
+
+			fiy.gmResize = function() {
+				fiy.updateMapHeight();
+			};
+
+
+			fiy.gmInit = function () {
+				var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+				var mapOptions = {
+					zoom: 16,
+					center: myLatlng
+				};
+				var map = fiy.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+				var panorama = fiy.panorama= map.getStreetView();
+				var img_src = ["current.jpeg", "current2.jpg"];
+				var statuses = ["active", "waiting"];
+				var markers = [];
+
+				panorama.setPov(({
+					heading: 265,
+					pitch: 0
+				}));
+
+				fiy.updateMapHeight();
+
+				for(var j = 0; j < markers.length; j++){
+					console.log("A new marker will be bound to an event");
+					google.maps.event.addListener(markers[j], 'click', function() {
+						document.getElementById("fix_picture_current").innerHTML = ' <img src="' + this.img_src  + '" width="100%" height="251x" />'
+						console.log("The value of the status is:  ", statuses[j]);
+						if(this.status === "waiting"){
+							document.getElementById("fix_description").innerHTML = "There is a rusted slide at the playground.";
+						}
+						else if( this.status === "active"){
+							document.getElementById("fix_description").innerHTML =  "At 10 this we are going to paint the slide :)";
+				}
+			});
+				}
+
+		$('#dialog-add-event-input-camera').closest('.ui-select').hide();
+		$('#dialog-preview-input-camera').closest('.ui-select').hide();
+		if (window.MediaStreamTrack) {
+			$('#dialog-add-event-input-camera').closest('.ui-select').show();
+			$('#dialog-preview-input-camera').closest('.ui-select').show();
+			// console.log($('#dialog-add-event-input-camera').closest('.ui-select'))
+			var videoSelect1 = document.querySelector('#dialog-add-event-input-camera');
+			var videoSelect2 = document.querySelector('#dialog-add-event-input-camera');
+
+			MediaStreamTrack.getSources(function(sourceInfos) {
+				for (var i = 0; i < sourceInfos.length; i++) {
+					var sourceInfo = sourceInfos[i];
+					var option = document.createElement('option');
+
+					option.value = sourceInfo.id;
+
+					if (sourceInfo.kind === 'video') {
+						if(i == 0) {
+							option.selected = true;
+						}
+
+						option.text = sourceInfo.label || 'camera ' + (videoSelect1.length + 1);
+						option.text = sourceInfo.label || 'camera ' + (videoSelect2.length + 1);
+						videoSelect1.appendChild(option);
+						videoSelect2.appendChild(option);
+					}
+				}
+			});
+		}
+
+
+		window.navigator.geolocation.getCurrentPosition(function (location) {
+			var latLng = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+			map.setCenter(latLng);
+		});
+
+
+
+		$('#toggle-street-view').on('click', function () {
+			var toggle = fiy.panorama.getVisible();
+			fiy.panorama.setVisible(!toggle);
+			panorama.setPosition(map.getCenter());
+		});
+
+
+
+
+		fiy.request({
+			command: 'get_events',
+		})
+			.then(function(response) {
+				for(var i = 0, l = response.events.length; i < l; i++) {
+					var placemark = response.events[i];
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(placemark.coord_x, placemark.coord_y),
+						map: map,
+						title: placemark.name,
+					});
+				
+
+					google.maps.event.addListener(marker, 'click', (function(placemark) {
+							return function() {
+								fiy.videoStreamer.startStream(document.querySelector('#dialog-preview-video'));
+
+								var username = placemark.reported_by__first_name + ' ' + placemark.reported_by__last_name + ' (' + placemark.reported_by__login + ')';
+
+								document.querySelector('#dialog-preview-before-pic').src = placemark.before_pic_url;
+								document.querySelector('#dialog-preview-name').innerHTML = placemark.name;
+								document.querySelector('#dialog-preview-user').innerHTML = username;
+								document.querySelector('#dialog-preview-address').innerHTML = placemark.address;
+								document.querySelector('#dialog-preview-description').innerHTML = placemark.descr;
+
+
+								$('#dialog-preview').popup('open', { positionTo: 'window', });
+								$('#dialog-preview-btn-fixit').on('click', function() {
+									fiy.request({
+										command: 'create_or_update_event',
+										params: {
+											status_id: 6,
+											after_picture_data_base64: document.querySelector('#dialog-preview-img').src,
+											id: placemark.id,
+											name: placemark.name,
+											// fixed_by: 123,											
+										}
+									})
+										.then(function() {
+											$('#dialog-preview').popup('close');
+											$('#dialog-preview-btn-fixit').off('click');
+										});
+								});
+							};
+						})(placemark)
+					);
+				}
+
+			});
+
+
+		google.maps.event.addListener(map, 'click', function (event) {
+			fiy.videoStreamer.startStream(document.querySelector('#dialog-add-event-video'));
+
+
+			$('#dialog-add-event').popup('open', { positionTo: 'window', });
+			$('#dialog-add-event-video').show();
+			$('#dialog-add-event-img').hide();
+			$('#dialog-add-event-btn-take-pic').closest('.ui-btn').show();
+			$('#dialog-add-event-btn-change-pic').closest('.ui-btn').hide();
+			$('#dialog-add-event-btn-submit').on('click', function(e) {		
+				var books = {};
+				fiy.request({
+					command: 'create_or_update_event',
+					params: {
+						name: $('#name').val(),
+						descr: $('#description').val(),
+						coord_x: event.latLng.lat(),
+						coord_y: event.latLng.lng(),
+						picture_count: 1,
+						before_picture_data_base64: document.querySelector('#dialog-add-event-img').src,
+						status_id: 2,
+						reported_by: 19,
+						address: $('#address').val(),
+						cost: $('#expected_cost').val(),
+					},
+				})
+				.then(function(response) {
+					var marker = new google.maps.Marker({
+						position: event.latLng,
+						map: map,
+						title: 'Placemark',
+					});
+
+
+					$('#dialog-add-event-btn-submit').off('click');
+					map.setCenter(event.latLng);
+					$('#dialog-add-event').popup('close');
+
+
+					$('#name').val('');
+					$('#description').val('');
+					$('#address').val('');
+					$('#expected_cost').val('');
+				});
+			});
+		}); 
+
+
+
+
+
+				//It hides the buttons and divs when showing a waiting fix
+				function hideActiveFixesUi(){
+
+				}
+
+				//It hides the buttons and divs when showing an active fix
+				function hideWaitingFixesUi(){
+
+				}
+
+				function foo(){
+					$( "#popupLogin" ).popup( "close" );
+				}
+
+				function bar(){
+						//$( "#popupLogin" ).popup( "close" );
+						$( "#popupRegister" ).popup( "open" );
+					}
+
+
+
+
+				}
+
+
+				google.maps.event.addDomListener(window, 'load', fiy.gmInit);
+				google.maps.event.addDomListener(window, 'resize', fiy.gmResize);
+
+
+
+
+	$('#dialog-add-event-btn-take-pic').on('click', function() {
+		fiy.videoStreamer.takePicture(
+			document.querySelector('#dialog-add-event-video'), 
+			document.querySelector('#dialog-add-event-img'), 
+			'image/png', 0.5
+			);
+
+		$('#dialog-add-event-img').show();
+		$('#dialog-add-event-video').hide();
+		$('#dialog-add-event-btn-take-pic').closest('.ui-btn').hide();
+		$('#dialog-add-event-btn-change-pic').closest('.ui-btn').show();
+	});
+
+	$('#dialog-preview-btn-take-pic').on('click', function() {
+		fiy.videoStreamer.takePicture(
+			document.querySelector('#dialog-preview-video'), 
+			document.querySelector('#dialog-preview-img'), 
+			'image/png', 0.5
+			);
+
+		$('#dialog-preview-img').show();
+		$('#dialog-preview-video').hide();
+		$('#dialog-preview-btn-take-pic').closest('.ui-btn').hide();
+		$('#dialog-preview-btn-change-pic').closest('.ui-btn').show();
+	});
+
+
+	$('#dialog-add-event-input-camera').on('click', function() {
+		fiy.videoStreamer.startStream(document.querySelector('#dialog-add-event-video'), document.querySelector('#dialog-add-event-input-camera').value);
+	});
+
+	$('#dialog-preview-input-camera').on('click', function() {
+		fiy.videoStreamer.startStream(document.querySelector('#dialog-preview-video'), document.querySelector('#dialog-preview-input-camera').value);
+	});
+
+	// Change pic
+	$('#dialog-add-event-btn-change-pic').on('click', function() {
+		$('#dialog-add-event-img').hide();
+		$('#dialog-add-event-video').show();
+		$('#dialog-add-event-btn-take-pic').closest('.ui-btn').show();
+		$('#dialog-add-event-btn-change-pic').closest('.ui-btn').hide();
+	});
+
+	$('#dialog-preview-btn-change-pic').on('click', function() {
+		$('#dialog-preview-img').hide();
+		$('#dialog-preview-video').show();
+		$('#dialog-preview-btn-take-pic').closest('.ui-btn').show();
+		$('#dialog-preview-btn-change-pic').closest('.ui-btn').hide();
+	});
+
+
+	$('#dialog-add-event').on('popupafterclose', function() {
+		fiy.videoStreamer.stopStream(document.querySelector('#dialog-add-event-video'));
+    });
+
+    $('#dialog-preview').on('popupafterclose', function() {
+		fiy.videoStreamer.stopStream(document.querySelector('#dialog-add-event-video'));
+    });
+
+
+	// $(document).ready(function(){
+		
+	// 	$("#statistics-button").click(function () {
+	// 		document.location.href = "./statistics.html";
+	// 	});
+	// });
+})
+
+</script>
+
+	<!-- <div id="panel" style="margin-left:-100px">
+		<input type="button" value="Toggle Street View" onclick="toggleStreetView();"></input>
+	</div> -->
+
+	<a href id="toggle-street-view">Toggle street view</a>
+
+	<div id="dialog-add-event" data-role="popup">
+		<form id="dialog-add-event-form">
+			<div style="padding:10px 20px;">
+				<h3>Please enter all of the fields</h3>
+				
+				<select id="dialog-add-event-input-camera">
+					<option disabled="disabled" selected="selected">Select camera</option>
+				</select>
+
+				<div style="text-align: center">
+					<video id="dialog-add-event-video" style="max-width: 100%; max-height: 100px;"></video>
+					<img id="dialog-add-event-img" style="max-width: 100%; max-height: 100px;" />
+					<div>
+						<input id="dialog-add-event-btn-take-pic" type="button" value="Take picture" />
+						<input id="dialog-add-event-btn-change-pic" type="button" value="Change picture" />
+					</div>
+				</div>
+				
+
+				<label>
+					<input class="ui-input-text ui-body-a" name="user" id="name" value="" placeholder="name" data-theme="a" type="text">
+				</label>
+
+				<label>
+					<textarea class="ui-input-text ui-body-a" name="asd" id="description" value="" placeholder="description" data-theme="a" type="text"></textarea>
+				</label>
+
+				<label>
+					<textarea class="ui-input-text ui-body-a" name="user" id="address" value="" placeholder="address" data-theme="a" type="text"></textarea>
+				</label>
+
+				<label>
+					<input class="ui-input-text ui-body-a" name="user" id="expected_cost" value="" placeholder="Expected cost" data-theme="a" type="text">
+				</label>
+
+				<a id="dialog-add-event-btn-submit" data-role="button">Add Fix!</a>
+			</div>
+		</form>
+	</div>
+
+
+	<div id="dialog-preview" data-role="popup">
+		<form id="dialog-preview-form">
+			<div style="padding:10px 20px;">
+				<h3 id="dialog-preview-name"></h3>
+
+				<select id="dialog-preview-input-camera">
+					<option disabled="disabled" selected="selected">Select camera</option>
+				</select>				
+
+				<div style="text-align: center">
+					<img id="dialog-preview-before-pic" style="max-width: 100%; max-height: 100px;" />
+					<video id="dialog-preview-video" style="max-width: 100%; max-height: 100px;"></video>
+					<img id="dialog-preview-img" style="max-width: 100%; max-height: 100px;" />
+					<div>
+						<input id="dialog-preview-btn-take-pic" type="button" value="Take picture" />
+						<input id="dialog-preview-btn-change-pic" type="button" value="Change picture" />
+					</div>
+				</div>
+				
+				<p>
+					<span id="dialog-preview-name"></span>
+				</p>
+				<p>
+					<span id="dialog-preview-user"></span>
+				</p>
+				<p>
+					<span id="dialog-preview-address"></span>
+				</p>
+				<p>
+					<span id="dialog-preview-description"></span>
+				</p>
+
+				<a id="dialog-preview-btn-fixit" data-role="button">Fixit</a>
+			</div>
+		</form>
+	</div>
+	
+</body>
+</html>
