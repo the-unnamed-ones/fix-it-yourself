@@ -44,14 +44,14 @@ sub ASSERT($;$)
                
         print (STDERR "ASSERT FAILED: $callInfo[1]: $callInfo[2]");
 
-        eval 
-        {
+#        eval 
+#        {
             die $msg;
-        };
-        if($@) 
-        {
+#        };
+#        if($@) 
+#        {
             
-        }
+#        }
     }
 }
 
@@ -70,21 +70,26 @@ sub Handler($)
         my $pass = "123";
 
         bless $self, $class;
+        print (STDERR "START FYI at ".localtime(time));
 
 #        ASSERT(defined $$self{cgi}->param("command") && defined $$commands{ $$self{cgi}->param("command") });
         ASSERT(defined $$self{cgi}->param("payload_json"));
         my $input = decode_json $$self{cgi}->param("payload_json");
         ASSERT(defined $$input{command} && defined  $$commands{ $$input{command} });
-        $$self{dbh} = DBI->connect("dbi:Pg:dbname=$dbname;host=localhost", $user, $pass);
+        $$self{dbh} = DBI->connect("dbi:Pg:dbname=$dbname;host=localhost", $user, $pass,{RaiseError => 1});
+
+
+#        ASSERT(0,"aaaaaaa");
 
         $$self{response} = $$commands{$$input{command}}{proc}->($self,$$input{params});
 
         $$self{response}{status} = GetOkStatus();
+
 #        $$self{dbh}->disconect;
     }
     catch
     {
-        $$self{response}{status} = GetErrorStatus($!);
+        $$self{response}{status} = GetErrorStatus($_);
     };
 
 
@@ -220,15 +225,18 @@ sub UpdateOrInsertTable($$$;$)
             update $table
             set $params
             where $where_expr
+            RETURNING *
             ";
         $sth = $$self{dbh}->prepare($query);
     }
     else
     {
-        my $query = "insert into $table $ins_params";
+        my $query = "insert into $table $ins_params RETURNING *";
         $sth = $$self{dbh}->prepare($query);
     }
     $sth->execute();
+
+    return $sth->fetchrow_hashref;
 }
 
 sub CreateOrUpdateUser($$)
@@ -247,22 +255,112 @@ sub CreateOrUpdateUser($$)
     return {};
 }
 
+use MIME::Base64;
+
+
 sub CreateOrUpdateEvent($$)
 {
     my ($self, $command) = @_;
+    my $image_base64;
     
+    my $result;
+
     if(!defined $$command{id})
     {
-        $self->UpdateOrInsertTable("events", $command);
+        print(STDERR "Inserttttttttttttt");
+        my $before_picture_data_base64 = $$command{before_picture_data_base64};
+        delete $$command{before_picture_data_base64};
+        $result = $self->UpdateOrInsertTable("events", $command);
+
+        my @picture_data = split ",",$before_picture_data_base64;
+        my $data = decode_base64($picture_data[1]);
+#        $before_picture_data_base64 = s/data://;
+        my $picture_name = $$result{id_hash};
+        $image_base64 = $before_picture_data_base64;
+
+#        TRACE("picture_name: ", $picture_name);
+        print STDERR "picture_name: $picture_name ; data: $before_picture_data_base64";
+        my $path = "/home/kosyo/fixit_pictures/before/" . $picture_name . ".png";
+
+        my $fh = IO::File->new($path, "w") or die($!);#throw($!);
+        print $fh $data;
+
+        $fh->close;
     }
     else
     {
-        $self->UpdateOrInsertTable("events", $command, {id => $$command{id}});
+        print(STDERR "Updateeeeeeeeeeeee");
+        my $before_picture_data_base64 = $$command{after_picture_data_base64};
+        delete $$command{after_picture_data_base64};
+        $$self{achivement_result} = $result;
+        if($$command{status_id} == FixIt::Consts::EVENT_STATUS_FINISHED)
+        {
+            AddAchivement($self, $command);
+
+        print STDERR "after_pic: ", $$command{after_picture_data_base64}; 
+        delete $$command{fixed_by};
+        $result = $self->UpdateOrInsertTable("events", $command, {id => $$command{id}});
+
+        my @picture_data = split ",",$before_picture_data_base64;
+
+            my $data = decode_base64($picture_data[1]);
+#        $before_picture_data_base64 = s/data://;
+            my $picture_name = $$result{id_hash};
+            $image_base64 = $before_picture_data_base64;
+
+#        TRACE("picture_name: ", $picture_name);
+            print STDERR "picture_name: $picture_name ; data: $before_picture_data_base64";
+            my $path = "/home/kosyo/fixit_pictures/after/" . $picture_name . ".png";
+
+            my $fh = IO::File->new($path, "w") or die($!);#throw($!);
+            print $fh $data;
+
+            $fh->close;
+
+        }
     }
 
-    return {};
+    
+
+    return {event => $result};
 
 }
+
+
+sub AddAchivement ($$)
+{
+    my ( $self, $command) = @_;
+
+    my $response;
+    my $sth = $$self{dbh}->prepare("
+        SELECT
+        FROM events E
+            JOIN user_event_map UEM ON UEM.event_id = E.id
+            JOIN users U ON U.id = UEM.user_id
+            
+    ");
+    
+#    my $sth = $$self{dbh}->prepare("
+#        SELECT
+#        FROM users U
+#            JOIN user_achivement_map UAM ON UAM.user_id = U.id
+#            JOIN user_achivements UA ON UA.id = UAM.achivement_id
+#        WHERE U.id_hash = ? 
+#            AND UA.id = 2
+#        ");
+
+#    $sth->execute($$self{achivement_result}{id});
+
+#    my $row = $sth->fetchrow_hashref;
+
+
+
+
+    return $response;
+
+}
+
+
 
 sub AcceptEvent($$)
 {
@@ -338,7 +436,10 @@ SELECT E.*,
             CU.has_picture as confirmed_by__has_picture ,
             CU.login as confirmed_by__login ,
             CU.curr_experience_points as confirmed_by__curr_experience_points ,
-            CU.total_work_time as confirmed_by__total_work_time 
+            CU.total_work_time as confirmed_by__total_work_time,
+            '//192.168.1.100/fixit-api/fixit_pictures/before/' || E.id_hash || '.png' as before_pic_url,
+             '//192.168.1.100/fixit-api/fixit_pictures/after/' || E.id_hash || '.png' as after_pic_url
+
 --            CUL.name as confirmed_by__level_id__name ,
 --            CUR.name as confirmed_by__role_id__name 
         FROM events E
@@ -576,6 +677,7 @@ sub GetPlayersWithFixesAndRep($$)
 
     return $response;
 }
+
 
 
 
