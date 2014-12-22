@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="server_communication.js"></script>
   </head>
   <body>
 <div data-role="header">
@@ -18,14 +19,30 @@
     <h4 for="un" class=" ui-input-text">User name:</h4>
     <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
     <h4 for="un" class=" ui-input-text">First name:</h4>
-    <input class="ui-input-text ui-body-a" name="fname" id="un" value="" placeholder="first name" data-theme="a" type="text">
+    <input class="ui-input-text ui-body-a" name="fname" id="fn" value="" placeholder="first name" data-theme="a" type="text">
     <h4 for="un" class=" ui-input-text">Last name:</h4>
-    <input class="ui-input-text ui-body-a" name="lname" id="un" value="" placeholder="last name" data-theme="a" type="text">
+    <input class="ui-input-text ui-body-a" name="lname" id="ln" value="" placeholder="last name" data-theme="a" type="text">
     <h4 for="un" class="ui-input-text">Email:</h4>
-    <input class="ui-input-text ui-body-a" name="email" id="un" value="" placeholder="email" data-theme="a" type="text">
+    <input class="ui-input-text ui-body-a" name="email" id="email" value="" placeholder="email" data-theme="a" type="text">
     <h4 for="un" class=" ui-input-text">Birth date:</h4>
-    <input class="ui-input-text ui-body-a" name="bdate" id="un" value="" placeholder="birth date" data-theme="a" type="text">
+    <input class="ui-input-text ui-body-a" name="bdate" id="bdate" value="" placeholder="birth date" data-theme="a" type="text">
     <h4 for="pw" class=" ui-input-text">Password:</h4>
-    <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
+    <input class="ui-input-text ui-body-a" name="pass" id="pass" value="" placeholder="password" data-theme="a" type="password">
+    <a onclick="register_user()" data-role="button">Sign up!</a>
     </body>
+    <script>
+      function register_user(){
+        resp = getFixItJson({"command":"create_or_update_user",
+                                    "params" : {
+                                                "login": $("#un").val(),
+                                                "first_name": $("#fn").val(),
+                                                "last_name": $("#ln").val(),
+                                                "email": $("#email").val(),
+                                                "date_of_birth": $("#bdate").val(),
+                                                "password": $("#pass").val()
+                                                }
+                                  });
+        console.log(resp);
+      }
+    </script>
 </html>

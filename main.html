@@ -32,7 +32,7 @@
 	  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
   </head>
   <body>
-    <div data-role="header">
+    <div id="header" data-role="header">
       <a class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-left ui-btn-up-a" aria-owns="#popupLogin" aria-haspopup="true" data-wrapperels="span" data-iconshadow="true" data-shadow="true" data-corners="true" href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-icon="check" data-theme="a" data-transition="flip">
         <span class="ui-btn-inner"><span class="ui-btn-text">Sign in</span>
         <span class="ui-icon ui-icon-check ui-icon-shadow">&nbsp;</span>
@@ -48,6 +48,7 @@
     </span>
   </a>
 
+<<<<<<< HEAD
 	<h1>FixIt Yourself!</h1>
 </div><!-- /header -->
 <!-- CANVAS -->
@@ -92,6 +93,29 @@
                <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign in</button>
                <!--<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="star"  onclick='bar()' aria-owns="#popupRegister" aria-haspopup="true" href="#popupRegister" data-rel="popup" >Sign up</button> -->
               <a href="sign_up.html" data-role="button">Sign up!</a>
+=======
+	  <h1>Fix-It Yourself!</h1>
+      <a id="statistics-button" href="statistics.html" data-icon="grid">Statistics</a>
+	</div><!-- /header -->
+  <!-- CANVAS -->
+    <div id="map-canvas"></div>
+  <!-- CANVAS -->
+
+  <!-- FORM WITH DATA -->
+
+  <!-- LOGIN POPUP -->
+    <div data-dismissible="true" data-position-to="origin" data-transition="none" data-corners="true" data-shadow="true" data-disabled="false" aria-disabled="false" data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all ui-popup ui-body-a ui-overlay-shadow">
+                <div style="padding:10px 20px;">
+                  <h3>Please sign in</h3>
+                      <label for="un" class="ui-hidden-accessible ui-input-text">Username:</label>
+                      <input class="ui-input-text ui-body-a" name="user" id="un" value="" placeholder="username" data-theme="a" type="text">
+                      <label for="pw" class="ui-hidden-accessible ui-input-text">Password:</label>
+                      <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
+                   <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign in</button>
+                   <!--<button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="star"  onclick='bar()' aria-owns="#popupRegister" aria-haspopup="true" href="#popupRegister" data-rel="popup" >Sign up</button> -->
+                  <a href="sign_up.html" data-role="button">Sign up!</a>
+                </div>
+>>>>>>> 99dd04c084b1c932f8971a52f7eb01f5ece70780
             </div>
         </div>
 <!--// LOGIN POPUP -->
@@ -113,6 +137,7 @@
                     <input class="ui-input-text ui-body-a" name="pass" id="pw" value="" placeholder="password" data-theme="a" type="password">
                  <button data-disabled="false" class="ui-btn-hidden" data-theme="b" data-icon="check"  onclick='foo()'>Sign up</button>
               </div>
+<<<<<<< HEAD
           </div>
   <!--// REGISTER POPUP -->
 
@@ -122,6 +147,45 @@
 <script>
    //It hides the buttons and divs when showing a waiting fix
    function hideActiveFixesUi(){
+=======
+      <!--// REGISTER POPUP -->
+      <div data-role="popup" id="fix_waiting">
+      	<div class="ui-grid-a">
+         <div id="fix_picture_current" class="ui-block-a">
+         </div>
+
+         <div id="fix_status" class="ui-block-b">
+           <div class="ui-grid-a">
+             <div class="ui-block-a">
+               <div id="fix_address">
+                 <b>Address: </b>gradinkata do blok 24
+               </div>
+               <div id="fix_cost:">
+                 <b>Expected cost: </b>50-80lv
+               </div>
+               <div>
+               </div>
+             </div>
+
+             <div class="ui-block-b">
+               <div id="fix_description" style="height:195px;overflow-y: scroll;overflow-x: hidden;">
+                   Bla bla bla bla bla bla bla koga e nastupilo bla bla bla
+               </div>
+               <a  data-role="button">Accept Fix</a>
+             </div>
+           </div>
+         </div>
+       </div>
+      </div>
+      <div data-role="popup" id="fix_inprogress">
+      	<p>This is a completely basic popup, no options set.<p>
+      </div>
+
+  </body>
+  <script>
+  //It hides the buttons and divs when showing a waiting fix
+  function hideActiveFixesUi(){
+>>>>>>> 99dd04c084b1c932f8971a52f7eb01f5ece70780
 
    }
 
@@ -174,6 +238,7 @@
      });
      markers.push(marker);
 
+<<<<<<< HEAD
      console.log("Markers:  ", markers.length);
    }
    for(var j = 0; j < markers.length; j++){
@@ -195,4 +260,36 @@
      google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 </body>
+=======
+    console.log("Markers:  ", markers.length);
+  }
+  for(var j = 0; j < markers.length; j++){
+    console.log("A new marker will be bound to an event");
+    google.maps.event.addListener(markers[j], 'click', function() {
+        document.getElementById("fix_picture_current").innerHTML = ' <img src="' + this.img_src  + '" width="100%" height="251x" />'
+        console.log("The value of the status is:  ", statuses[j]);
+        if(this.status === "waiting"){
+            document.getElementById("fix_description").innerHTML = "There is a rusted slide at the playground.";
+        //    document.getElementById("fix_picture_current").innerHTML =
+        }
+        else if( this.status === "active"){
+            document.getElementById("fix_description").innerHTML =  "At 10 this we are going to paint the slide :)";
+            //document.getElementById("fix_picture_current").innerHTML =
+        }
+    });
+  }
+}
+    google.maps.event.addDomListener(window, 'load', initialize);
+    $( "#fix_waiting" ).popup();
+    $( "#fix_inprogress" ).popup();
+    // #prai rap
+  </script>
+  <script charset="utf-8">
+      $(document).ready(function(){
+          $("#statistics-button").click(function () {
+              document.location.href = "./statistics.html";
+          });
+      });
+  </script>
+>>>>>>> 99dd04c084b1c932f8971a52f7eb01f5ece70780
 </html>

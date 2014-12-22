@@ -11,40 +11,59 @@
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
     <style>
       .achivement{
-        height:110px;
-        width:110px;
+        height:100px;
+        width:100px;
         background:red;
         float:left;
-        margin-right:30px;
-        margin-top:30px;
-        display: table-cell;
+        margin-right:20px;
+        margin-top:20px;
+        /*display: table-cell;*/
         text-align:center;
-        vertical-align: middle;
+        /*vertical-align: middle;*/
       }
     </style>
-  </head>
-  <body>
-<div data-role="header">
-<h1>FixIt Yourself!</h1>
+</head>
+
+<body>
+<div data-role="page">
+    <div data-role="header">
+      <a id="home-button" href="main.html" data-icon="home">Home</a>
+      <a id="statistics-button" href="statistics.html" data-icon="grid">Statistics</a>
+      <h1>Fix-It Yourself! - Profile of Oleg Ivanov</h1>
+    </div>
+
+    <div class="ui-grid-b">
+        <div class="ui-block-a">
+        </div>
+        <div class="ui-block-b">
+            <div style="height:100px;">
+              <img src="avatar.png" height="150" width="140" style="float:left;padding-right:92px;" />
+              <p id="account_information" style="float:left"><b>Nick:</b>TimTim <br/>
+                <b>Level:</b> 37
+              </p>
+            </div>
+
+            <div class="ui-solo-grid" id="achivement_container">
+              <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
+              <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
+              <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
+              <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
+            </div>
+        <div class="ui-block-c">
+        </div>
+    </div>
+    </div>
 </div>
-</select>
-<div class="ui-grid-a">
-  <div style="height:110px;">
-    <img src="avatar.png" height="160" width="160" style="float:left;padding-right:75px;" />
-    <p id="account_information" style="float:left"><b>Name: </b>Oleg Ivanov <br/> <b>Nick:</b>TimTim <br/>
-      <b>Level:</b> 37
-    </p>
-  </div>
-  </div>
-  <div class="ui-block-b">
-  </div>
-  <div id="achivement_container">
-    <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
-    <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
-    <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
-    <div class="achivement">lalala alalalal lalalal la la la al alal alllalalalala</div>
-  </div>
-</div><!-- /grid-a -->
+</body>
+
 <script>
+$(document).ready(function(){
+    $("#statistics-button").click(function () {
+        document.location.href = "./statistics.html";
+    });
+    $("#home-button").click(function () {
+        document.location.href = "./main.html";
+    });
+});
 </script>
 </html>
